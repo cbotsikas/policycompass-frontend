@@ -29,6 +29,8 @@ var pcServicesUrl = nconf.get('PC_SERVICES_URL');
 var elasticSearchUrl = nconf.get('ELASTIC_SEARCH_URL');
 var fcmServicesUrl = nconf.get('FCM_SERVICES_URL');
 var fileServer = new nstatic.Server('');
+var renderer = require("./lib/renderer");
+renderer.init("test");
 
 // Heavily inspired by this Gist: https://gist.github.com/rpflorence/701407
 http.createServer(function (request, response) {
@@ -42,7 +44,22 @@ http.createServer(function (request, response) {
     if (/^\/(app|)$/.exec(request.url)) {
         response.writeHead(302, {"location": "/app/"});
         response.end();
+    } else if (/^\/render/.exec(request.url)) {
+
+        renderer.handleRequest(request, response);
+        //response.writeHead(200);
+        //response.end();
+    } else if (/^\/capture/.exec(request.url)) {
+
+        //capture.handleRequest(request, response);
+        response.writeHead(200);
+        response.end();
     } else {
+        var parsedQuery = url.parse(request.url, true).query;
+        if(parsedQuery && parsedQuery['_escaped_fragment_'] !== undefined) {
+            renderer.handleRequest(request, response);
+            return;
+        }
         request.addListener('end', function () {
             fileServer.serve(request, response);
         }).resume();
