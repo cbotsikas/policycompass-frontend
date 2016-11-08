@@ -39,6 +39,12 @@ http.createServer(function (request, response) {
     console.log('[%s] "%s %s" "%s"', (new Date).toUTCString(), request.method, request.url, request.headers['user-agent']);
 
     // Serve static files and handle rewrites to app (for development environment)
+    //if (/^\/app\/bower_components\/.*$/.exec(request.url)) {
+    //    request.addListener('end', function () {
+    //        request.url = request.url.replace(/^\/app\/(bower_components\/.*)$/,"$1");
+    //        fileServer.serve(request, response);
+    //    }).resume();
+    //} else
     if (/^\/(app|)$/.exec(request.url)) {
         response.writeHead(302, {"location": "/app/"});
         response.end();

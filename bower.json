@@ -43,5 +43,37 @@
         "angular-bootstrap": "=0.12.0",
         "angular": "=1.2.27",
         "handsontable": "=0.12.6"
+    },
+    "overrides": {
+        "Leaflet.Pancontrol": {
+            "main": ["src/L.Control.Pan.css"]
+        },
+        "chardin.js": {
+            "main": ["./chardinjs.js", "./chardinjs.css"]
+        },
+        "wellaged": {
+            "main": []
+        },
+        "elasticsearch": {
+            "main": ["elasticsearch.angular.js"]
+        },
+        "bootstrap": {
+            "main": ["dist/css/bootstrap.css"]
+        },
+        "pikaday": {
+            "main": []
+        },
+        "angular-mocks": {
+            "main": []
+        },
+        "zeroclipboard": {
+            "main": []
+        },
+        "moment": {
+            "main": []
+        },
+        "skrollr": {
+            "main": []
+        }
     }
 }
