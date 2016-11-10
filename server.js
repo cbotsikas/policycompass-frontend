@@ -44,22 +44,9 @@ http.createServer(function (request, response) {
     if (/^\/(app|)$/.exec(request.url)) {
         response.writeHead(302, {"location": "/app/"});
         response.end();
-    } else if (/^\/render/.exec(request.url)) {
-
+    } else if (renderer.shouldHandled(request)) {
         renderer.handleRequest(request, response);
-        //response.writeHead(200);
-        //response.end();
-    } else if (/^\/capture/.exec(request.url)) {
-
-        //capture.handleRequest(request, response);
-        response.writeHead(200);
-        response.end();
     } else {
-        var parsedQuery = url.parse(request.url, true).query;
-        if(parsedQuery && parsedQuery['_escaped_fragment_'] !== undefined) {
-            renderer.handleRequest(request, response);
-            return;
-        }
         request.addListener('end', function () {
             fileServer.serve(request, response);
         }).resume();
